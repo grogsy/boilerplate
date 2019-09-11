@@ -39,6 +39,9 @@ router.delete('/logout', (req, res, next) => {
 });
 
 // endpoint for fetching the current logged in user
+router.get('/me', (req, res, next) => {
+  res.json(req.user);
+});
 
 // sign-up endpoint
 router.post('/signup', async (req, res, next) => {
@@ -65,7 +68,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id)
+  User.findByPk(id)
     .then(user => done(null, user))
     .catch(done);
 });
