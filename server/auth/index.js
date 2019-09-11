@@ -1,5 +1,6 @@
 // auth (login/logout, sign up) endpoints
 const router = require('express').Router();
+const passport = require('passport');
 
 const { User } = require('../db');
 
@@ -40,9 +41,9 @@ router.delete('/logout', (req, res, next) => {
 // endpoint for fetching the current logged in user
 
 // sign-up endpoint
-router.post('/signup', (req, res, next) => {
+router.post('/signup', async (req, res, next) => {
   try {
-    const user = User.create(req.body);
+    const user = await User.create(req.body);
     req.login(user, err => {
       if (err) {
         next(err);
@@ -53,6 +54,20 @@ router.post('/signup', (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+passport.serializeUser((user, done) => {
+  try {
+    done(null, user.id);
+  } catch (err) {
+    done(err);
+  }
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then(user => done(null, user))
+    .catch(done);
 });
 
 module.exports = router;

@@ -23,10 +23,6 @@ app.use(express.static(staticFolder));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Routing middleware
-app.use('/api', require('./api'));
-app.use('/auth', require('./auth'));
-
 // configure & create database store for session persistence
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const dbStore = new SequelizeStore({ db: db });
@@ -46,6 +42,10 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Routing middleware
+app.use('/api', require('./api'));
+app.use('/auth', require('./auth'));
 
 // Send index.html for any requests that don't match express-defined(like /api) routes
 app.get('*', (req, res) => {
