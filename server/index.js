@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routing middleware
 app.use('/api', require('./api'));
+app.use('/auth', require('./auth'));
 
 // configure & create database store for session persistence
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
