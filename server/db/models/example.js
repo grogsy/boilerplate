@@ -5,30 +5,34 @@ const Sequelize = require('sequelize');
 
 const db = require('../db');
 
-const User = db.define('user', {
-  name: {
-    type: Sequelize.STRING,
-  },
+const User = db.define(
+  'user',
+  {
+    name: {
+      type: Sequelize.STRING,
+    },
 
-  email: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-  },
+    email: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+    },
 
-  password: {
-    type: Sequelize.STRING,
-  },
+    password: {
+      type: Sequelize.STRING,
+    },
 
-  salt: {
-    type: Sequelize.STRING,
+    salt: {
+      type: Sequelize.STRING,
+    },
   },
-
-  hooks: {
-    beforeCreate: setSaltAndPassword,
-    beforeUpdate: setSaltAndPassword,
-  },
-});
+  {
+    hooks: {
+      beforeCreate: setSaltAndPassword,
+      beforeUpdate: setSaltAndPassword,
+    },
+  }
+);
 
 User.prototype.correctPassword = function(password) {
   return this.Model.encryptPassword(password, this.salt) === this.password;
