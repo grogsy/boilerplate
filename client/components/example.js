@@ -7,16 +7,6 @@ import LoginForm from './loginlocal';
 const ExampleComponent = props => {
   return (
     <div>
-      {props.user.id ? (
-        <button
-          className="btn bg-red white p1 rounded"
-          onClick={props.handleLogout}
-        >
-          Logout
-        </button>
-      ) : (
-        <p>Logout Button here if logged in</p>
-      )}
       <h1>This &lt;h1&gt; header brought to you by an example component</h1>
       {/** state.initialState is set to 'foo!' */}
       <h3>We can see an example state in: {props.example}</h3>
@@ -26,7 +16,16 @@ const ExampleComponent = props => {
           ? `Logged in as: ${props.user.name}`
           : 'No one logged in'}
       </p>
-      <LoginForm handleLogin={props.handleLogin} />
+      {props.user.id ? (
+        <button
+          className="btn bg-red white p1 rounded"
+          onClick={props.handleLogout}
+        >
+          Logout
+        </button>
+      ) : (
+        <LoginForm handleLogin={props.handleLogin} />
+      )}
     </div>
   );
 };
