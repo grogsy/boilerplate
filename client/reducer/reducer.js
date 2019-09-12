@@ -18,6 +18,13 @@ export const logIn = formData => {
   };
 };
 
+export const logOut = () => {
+  return async dispatch => {
+    await axios.delete('/auth/logout');
+    dispatch(gotUser({}));
+  };
+};
+
 const initialState = {
   initialState: 'foo!',
   user: {},
