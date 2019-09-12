@@ -3,7 +3,7 @@ const clientFolder = path.join(__dirname, './client');
 const publicFolder = path.join(__dirname, './public');
 
 module.exports = {
-  entry: path.join(clientFolder, 'index.js'),
+  entry: ['babel-polyfill', path.join(clientFolder, 'index.js')],
   mode: 'development',
   output: {
     path: publicFolder,

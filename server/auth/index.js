@@ -13,9 +13,11 @@ router.put('/login', async (req, res, next) => {
       },
     });
 
+    console.log(user.Model);
+
     if (!user) {
       res.status(401).send('User not Found');
-    } else if (!user.hasMatchingPassword(req.body.password)) {
+    } else if (!user.correctPassword(req.body.password)) {
       res.status(401).send('Incorrect Password');
     } else {
       req.login(user, err => {

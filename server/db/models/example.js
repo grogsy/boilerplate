@@ -35,7 +35,7 @@ const User = db.define(
 );
 
 User.prototype.correctPassword = function(password) {
-  return this.Model.encryptPassword(password, this.salt) === this.password;
+  return encryptPassword(password, this.salt) === this.password;
 };
 
 User.prototype.sanitize = function() {
@@ -46,18 +46,18 @@ User.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64');
 };
 
-User.encryptPassword = function(plaintext, salt) {
+function encryptPassword(plaintext, salt) {
   const hash = crypto.createHash('sha1');
   hash.update(plaintext);
   hash.update(salt);
   return hash.digest('hex');
-};
+}
 
 function setSaltAndPassword(user) {
   // salt & hash whenever password is created for the first time/updated
   if (user.changed('password')) {
     user.salt = User.generateSalt();
-    user.password = User.encryptPassword(user.password, user.salt);
+    user.password = encryptPassword(user.password, user.salt);
   }
 }
 
